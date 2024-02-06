@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Single-Question Quiz</title>
+    <style>
+      button {
+        transition: rotate 0.5s;
+      }
+
+      .clicked {
+        background: red;
+      }
+
+      .clicked.correct {
+        background: green;
+        rotate: 360deg;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>Quiz</h1>
+
+    <div class="question">
+    <h2>How you should NOT refer to JavaScript?</h2>
+
+    <button>Vanilla JS</button>
+    <button>JS</button>
+    <button class="correct">Java</button>
+    </div>
+
+    <div class="question">
+    <h2>How you should NOT refer to JavaScript?</h2>
+
+    <button>Vanilla JS</button>
+    <button>JS</button>
+    <button class="correct">Java</button>
+    </div>
+
+    <div class="question">
+    <h2>How you should NOT refer to JavaScript?</h2>
+
+    <button>Vanilla JS</button>
+    <button>JS</button>
+    <button class="correct">Java</button>
+    </div>
+    
+    <p>Score: <span class="score-element">0</span></p> <!--span has no meaning, just divid the element from the other-->
+
+    <!-- Use internal JS -->
+    <script>
+      // Select all <button> elements on the page
+      let myButtons = document.querySelectorAll("button");//这个是搜索所有button
+      
+      let scoreElement = document.querySelector(".score-element");
+
+      //create score tracker
+      let score = 0;
+
+      let question; //把question变成global
+
+    
+      function disableButtons(question) { //这是第二种修复系统无法识别“question”的办法， 但这样就需要删除前面的let question；
+
+        let currentButtons = question.querySelectorAll("button"); //这个是在“question”里找button
+
+        // For each button
+        for (let button of currentButtons) { //这里从myButtons变成currentButtons
+          // Disable it
+          button.disabled = true;
+        }
+      }
+
+      // Define instructions to check answer
+      function checkAnswer(event) {
+        // Find clicked button, by looking into event details
+        let button = event.target;
+        let question = button.parentElement; //让电脑知道按了按键之后识别所在div(?) “define current question"
+
+        console.log(question);
+        // Get boolean (true or false) if <button> has class "correct" or not
+        let isCorrect = button.classList.contains("correct");
+
+        button.classList.add("clicked");
+
+        // Check if answer is correct
+        if (isCorrect) {
+            //adds 1 to score
+            score++;
+            scoreElement.innerText = score;
+          // Do stuff
+        } else {
+          // Do other stuff
+        }
+
+        disableButtons();
+      }
+
+      // For each button
+      for (let button of myButtons) {
+        // When clicked, check answer
+        button.onclick = checkAnswer;
+      }
+    </script>
+  </body>
+</html>
